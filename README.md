@@ -1,6 +1,6 @@
 # Desafio - Criando um Sistema Bancário com Python
 
-## Objetivo do desafil
+## Objetivo do desafio
 Fomos contratados por um grande banco para desenvolver o
 seu novo sistema. Esse banco deseja modernizar suas
 operações e para isso escolheu a linguagem Python. Para a
