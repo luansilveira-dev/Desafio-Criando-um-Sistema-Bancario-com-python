@@ -14,13 +14,13 @@ operações: depósito, saque e extrato.
 O sistema apresenta um menu e status interativo com as seguintes opções:
 ```
 |------------------------|--------------------|
-|    MENU DO SISTEMA     |      Status        |
-|------------------------|--------------------
-| [1] - Depósito.        | Saldo: R$ {saldo:.2f} 
-| [2] - Saque.           |  
-| [3] - Extrato.         | 
-| [4] - Sair.            | limite: R$ {limite:.2f}
-|------------------------|---------------------     
+  |    MENU DO SISTEMA     |      Status        |
+  |------------------------|--------------------
+  | [1] - Depósito.        | Saldo: R$ {saldo:.2f} 
+  | [2] - Saque.           |  
+  | [3] - Extrato.         | saques: {LIMITE_DE_SAQUES}/{numero_de_saques}
+  | [4] - Sair.            | limite: R$ {limite:.2f}
+  |------------------------|---------------------    
 ```
 
 Para escolher uma opção, o usuário deve digitar o número correspondente à operação desejada.

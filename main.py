@@ -15,9 +15,10 @@ while True:
   |------------------------|--------------------
   | [1] - Depósito.        | Saldo: R$ {saldo:.2f} 
   | [2] - Saque.           |  
-  | [3] - Extrato.         | 
+  | [3] - Extrato.         | saques: {LIMITE_DE_SAQUES}/{numero_de_saques}
   | [4] - Sair.            | limite: R$ {limite:.2f}
-  |------------------------|---------------------       
+  |------------------------|---------------------
+       
   \nPara esclher uma opção, digite o número correspondente: '''
   opcao = int(input(menu))
   if opcao == 1:  ### Operação de Depósito
@@ -29,16 +30,12 @@ while True:
   elif opcao == 2:  ## opeção de Saque
 
     valor_de_saque = float(input('\nInforme o valor do saque: '))
-    ## Variáveis de comparação
-    excedeu_valor = valor_de_saque > saldo
-    excedeu_limite = valor_de_saque > limite
-    excedeu_saque = numero_de_saques >= LIMITE_DE_SAQUES
     
-    if excedeu_valor:
+    if valor_de_saque > saldo:
       print('\nOperaçao falhou! Voce não tem saldo suficiente.')
-    elif excedeu_limite:
+    elif valor_de_saque > limite:
       print('\nOperação falhou! O valor do saque excede o limite.')
-    elif excedeu_saque:
+    elif numero_de_saques >= LIMITE_DE_SAQUES:
       print('\nOperação falhou! O número de saques diários excede o limite.')
     elif valor_de_saque > 0:
       saldo -= valor_de_saque
@@ -65,6 +62,8 @@ while True:
     break
   else:
     print('Opção inválida')
+    print('\nAperte ENTER para continuar...')
+    input()
   
   os.system('cls' if os.name == 'nt' else 'clear')
   
