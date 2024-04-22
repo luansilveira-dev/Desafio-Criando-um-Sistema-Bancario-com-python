@@ -31,10 +31,23 @@ Para armazenar e controlar os dados do usuário, o sistema utiliza as seguintes 
 - `LIMITE_DE_SAQUES = 3`: Limite máximo de saques diários.
 
 ## Operações do Depósito
-Ao escolher a opção de depósito no menu, o usuário pode adicionar fundos à sua conta. O sistema valida o valor do depósito para garantir que seja um valor positivo e, em caso de sucesso, atualiza o saldo e registra a transação no extrato.
+A função depósito deve receber os argumentos apenas por posição (Positional Only). Argumentos utilizados: **saldo**, **valor**, **extrato**. Os retornos: **saldo**, **extrato**
+```
+def depositar(saldo, valor, extrato):
+  if valor > 0:
+    saldo += valor
+    extrato += f'\n|  Depósito: R$ {valor:.2f}'
+    print("Seu depósito foi realizado com sucesso !!")
+  else:
+    print("Esse valor é invalido !!")
+
+  print('\nAperte ENTER para continuar...')
+  input()
+  return saldo, extrato
+```
 
 ## Operações do Saque
-A função deve receber argumentos apenas por nome(keyword only). Argumentos atilizados: saldo, valor, extrato, limite, numero_saques e limite_saque. Os retornos: saldo, extrato, limite, numero_saques  
+A função deve receber argumentos apenas por nome(keyword only). Argumentos atilizados: **saldo**, **valor**, **extrato**, **limite**, **numero_saques** e **limite_saque**. Os retornos: **saldo**, **extrato**, **limite, numero_saques**  
 ```
 def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saque):
   if valor > saldo:
@@ -61,7 +74,19 @@ def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saque):
 ```
 
 ## Operações do Extrato
-A opção de extrato exibe um resumo das operações realizadas na conta, incluindo depósitos e saques. O extrato também mostra o saldo atual da conta.
-
+A função extrato deve receber os argumentos por posição e nome (Positional Only e Keyword Only). Argumentos posicional: saldo, argumentos nomeados: extrato.
+```
+def extratos(saldo, /, *, extrato):
+    print('''
+|--------------------------------------------|
+|                 EXTRATOS                   |
+|--------------------------------------------|
+    ''')
+    print("|  Não foram realizadas movimentações." if not extrato else extrato)
+    print(f"\n\n|  Saldo: R$ {saldo:.2f}")
+    print("|--------------------------------------------|")
+    print('\nAperte ENTER para continuar...')
+    input()
+```
 ## Sair do Sistema
 Ao escolher a opção "Sair" no menu, o usuário encerra o sistema bancário.
