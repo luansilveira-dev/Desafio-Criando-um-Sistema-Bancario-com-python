@@ -1,11 +1,7 @@
-# Desafio - Criando um Sistema Bancário com Python
+# Desafio - Otimizando o Sistema Bancário com Python v2.0.0
 
 ## Objetivo do desafio
-Fomos contratados por um grande banco para desenvolver o
-seu novo sistema. Esse banco deseja modernizar suas
-operações e para isso escolheu a linguagem Python. Para a
-primeira versão do sistema devemos implementar apenas 3
-operações: depósito, saque e extrato.
+Precisamos deixar nosso código mais modularizado, para isso vamos criar funções para operações já existentes: sacar, depósito e visualizar extrato. Além disso, para a versão 2.0.0 do nosso sistema precisamos criar duas novas funções: criar usuário (cliente do banco) e criar conta corrente e vincular com usuário.
 
 
 ## Funcionalidades do Sistema
@@ -38,7 +34,31 @@ Para armazenar e controlar os dados do usuário, o sistema utiliza as seguintes 
 Ao escolher a opção de depósito no menu, o usuário pode adicionar fundos à sua conta. O sistema valida o valor do depósito para garantir que seja um valor positivo e, em caso de sucesso, atualiza o saldo e registra a transação no extrato.
 
 ## Operações do Saque
-A opção de saque permite que o usuário retire fundos de sua conta, respeitando o saldo disponível e o limite diário de saque. O sistema verifica as condições de saldo e limite antes de processar o saque e, em caso de sucesso, atualiza o saldo, o limite de saque e registra a transação no extrato.
+A função deve receber argumentos apenas por nome(keyword only). Argumentos atilizados: saldo, valor, extrato, limite, numero_saques e limite_saque. Os retornos: saldo, extrato, limite, numero_saques  
+```
+def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saque):
+  if valor > saldo:
+    print('\nOperaçao falhou! Voce não tem saldo suficiente.')
+
+  elif valor > limite:
+    print('\nOperação falhou! O valor do saque excede o limite.')
+
+  elif numero_saques >= limite_saque:
+    print('\nOperação falhou! O número de saques diários excede o limite.')
+
+  elif valor > 0:
+    saldo -= valor
+    numero_saques += 1
+    limite -= valor
+    extrato += f'\n|  Saque: R$ {valor:.2f}'
+    print("Seu saque foi realizado com sucesso!!")
+
+  else:
+    print("Esse valor é invalido !!")
+  
+  print('\nAperte ENTER para continuar...')
+  input()
+```
 
 ## Operações do Extrato
 A opção de extrato exibe um resumo das operações realizadas na conta, incluindo depósitos e saques. O extrato também mostra o saldo atual da conta.
