@@ -1,12 +1,5 @@
 import os
 
-saldo = 0
-limite = 500
-extrato = ""
-numero_de_saques = 0
-LIMITE_DE_SAQUES = 3
-
-
 def depositar(saldo, valor, extrato):
   if valor > 0:
     saldo += valor
@@ -45,7 +38,7 @@ def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saque):
 
   return saldo, extrato, limite, numero_saques     
 
-def mostrar_extratos(saldo, /, *, extrato):
+def extratos(saldo, /, *, extrato):
     print('''
 |--------------------------------------------|
 |                 EXTRATOS                   |
@@ -57,7 +50,11 @@ def mostrar_extratos(saldo, /, *, extrato):
     print('\nAperte ENTER para continuar...')
     input()
   
-
+saldo = 0
+limite = 500
+extrato = ""
+numero_de_saques = 0
+LIMITE_DE_SAQUES = 3
 
 while True:
   
@@ -88,7 +85,7 @@ while True:
 
   elif opcao == 3:
     os.system('cls' if os.name == 'nt' else 'clear')
-    mostrar_extratos(saldo, extrato=extrato)
+    extratos(saldo, extrato=extrato)
   elif opcao == 4:
     print('Saindo...')
     break
