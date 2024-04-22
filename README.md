@@ -1,4 +1,4 @@
-# Desafio - Criando um Sistema Bancário com Python
+# Desafio - Criando um Sistema Bancário com Python v1.0.0
 
 ## Objetivo do desafio
 Fomos contratados por um grande banco para desenvolver o
