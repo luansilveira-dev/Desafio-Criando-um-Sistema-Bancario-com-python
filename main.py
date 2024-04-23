@@ -1,4 +1,29 @@
-import os
+import os  
+
+
+def clear():
+  os.system('cls' if os.name == 'nt' else 'clear')
+
+def pause():
+  print('\nAperte ENTER para continuar...')
+  input()
+  
+def menu(saldo, limite_saque, numero_saques, limite):
+  menu = f'''
+  |------------------------|--------------------|
+  |    MENU DO SISTEMA     |      Status        |
+  |------------------------|--------------------
+  | [1] - Depósito.        | Saldo: R$ {saldo:.2f} 
+  | [2] - Saque.           |  
+  | [3] - Extrato.         | 
+  | [4] - Nova Conta       | 
+  | [5] - Novo usuário     | saques: {limite_saque}/{numero_saques}
+  | [6] - Sair.            | limite: R$ {limite:.2f}
+  |------------------------|---------------------
+       
+  \nPara esclher uma opção, digite o número correspondente: '''
+  
+  return menu 
 
 def depositar(saldo, valor, extrato):
   if valor > 0:
@@ -8,10 +33,8 @@ def depositar(saldo, valor, extrato):
   else:
     print("Esse valor é invalido !!")
 
-  print('\nAperte ENTER para continuar...')
-  input()
+  pause()
   return saldo, extrato
-  
 
 def sacar(*, saldo, valor, extrato, limite, numero_saques, limite_saque):
   if valor > saldo:
@@ -47,29 +70,58 @@ def extratos(saldo, /, *, extrato):
     print("|  Não foram realizadas movimentações." if not extrato else extrato)
     print(f"\n\n|  Saldo: R$ {saldo:.2f}")
     print("|--------------------------------------------|")
-    print('\nAperte ENTER para continuar...')
-    input()
-  
+    pause()
+
+def novo_usuario(usuario):
+  clear()
+  print('----------------------------------------------')
+  print('|               Novo Usuario                 |')
+  print('----------------------------------------------')
+  cpf = input('| CPF: ')
+  if verificar_usuario(cpf, usuario):
+    print('---------------------------------------------')
+    print('  Esse usuário já existe !')
+    return
+
+  nome = input('| Nome Completo: ')
+  data_nascimento = input('| Data de Nascimento (dd-mm-aaaa): ')
+  endereco = input('| Endereço (Logradouro, Nº - Bairro, Sidade/Sigla): ')
+
+  usuario.append({'cpf':cpf, 'nome': nome, 'data_nascimento':data_nascimento, 'endereco': endereco})
+  print('---------------------------------------------')
+  print('   Usuário cadastrado com Sucesso !')
+
+def verificar_usuario(cpf, usuarios):
+  verificador_usuario = [usuario for usuario in usuarios if usuario['cpf'] == cpf]
+  return verificador_usuario[0] if verificador_usuario else None
+
+def nova_conta(agencia, numero_conta, usuario):
+  clear()
+  print('----------------------------------------------')
+  print('|               Nova Conta                   |')
+  print('----------------------------------------------')
+  cpf = input('| CPF: ')
+
+  if verificar_usuario(cpf, usuario):
+    print('--------------------------------------------')
+    print('  Conta criada com sucesso !')
+    return {'agencia': agencia, 'numero_conta': numero_conta, 'usuario': usuario}
+  print('----------------------------------------------')
+  print(' Usuario não encotrado !')
+
+
 saldo = 0
 limite = 500
 extrato = ""
 numero_de_saques = 0
+usuarios = []
+contas = []
 LIMITE_DE_SAQUES = 3
+AGENCIA = '0001'
 
 while True:
-  
-  menu = f'''
-  |------------------------|--------------------|
-  |    MENU DO SISTEMA     |      Status        |
-  |------------------------|--------------------
-  | [1] - Depósito.        | Saldo: R$ {saldo:.2f} 
-  | [2] - Saque.           |  
-  | [3] - Extrato.         | saques: {LIMITE_DE_SAQUES}/{numero_de_saques}
-  | [4] - Sair.            | limite: R$ {limite:.2f}
-  |------------------------|---------------------
-       
-  \nPara esclher uma opção, digite o número correspondente: '''
-  opcao = int(input(menu))
+
+  opcao = int(input(menu(saldo, LIMITE_DE_SAQUES, numero_de_saques, limite)))
 
   if opcao == 1:  ### Operação de Depósito
     valor_de_deposito = float(input('Informe o valor do depósito: '))
@@ -82,18 +134,27 @@ while True:
 
     saldo, extrato, limite, numero_de_saques = sacar( saldo=saldo, valor=valor_de_saque, extrato=extrato, limite=limite, numero_saques=numero_de_saques, limite_saque=LIMITE_DE_SAQUES)
     
-
   elif opcao == 3:
-    os.system('cls' if os.name == 'nt' else 'clear')
+    clear()
     extratos(saldo, extrato=extrato)
+
   elif opcao == 4:
-    print('Saindo...')
+    numero_conta = len(contas) + 1
+    conta = nova_conta(AGENCIA, numero_conta, usuarios )
+    pause()
+
+  elif opcao == 5:
+    novo_usuario(usuarios)
+    pause()
+  elif opcao == 6:
+    print('Saindo ...')
     break
+
   else:
     print('Opção inválida')
     print('\nAperte ENTER para continuar...')
     input()
   
-  os.system('cls' if os.name == 'nt' else 'clear')
+  clear()
   
   
