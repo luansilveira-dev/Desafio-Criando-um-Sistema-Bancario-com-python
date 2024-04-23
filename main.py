@@ -70,7 +70,7 @@ def extratos(saldo, /, *, extrato):
     ''')
     print("|  Não foram realizadas movimentações." if not extrato else extrato)
     print(f"\n\n|  Saldo: R$ {saldo:.2f}")
-    print("|--------------------------------------------|")
+    print('-' * 46)
     pause()
 
 def novo_usuario(usuario):
@@ -102,22 +102,25 @@ def nova_conta(agencia, numero_conta, usuario):
   cpf = input('| CPF: ')
 
   if verificar_usuario(cpf, usuario):
-    print('--------------------------------------------')
+    print('-' * 50)
     print('  Conta criada com sucesso !')
     return {'agencia': agencia, 'numero_conta': numero_conta, 'usuario': usuario}
-  print('----------------------------------------------')
+  print('-' * 50)
   print(' Usuario não encotrado !')
 
 def lista_contas(contas):
+  print(' ------------------------------------------------')
+  print(' |              Contas Existente                |')
+  print(' ------------------------------------------------')
   for conta in contas:
     linha = f'''
-    Agência: {conta['agencia']}
-    C/C: {conta['numero_conta']}
-    Titular: {conta['usuario']['nome']}
+|  Agência: {conta['agencia']}
+|  C/C: {conta['numero_conta']}
+|  Titular: {conta['usuario'][0]['nome']}
     '''
-    print('-' * 100)
-    print((linha))
-
+    print('-' * 50)
+    print(linha)
+  print('-' * 50)
 def main():
   saldo = 0
   limite = 500
