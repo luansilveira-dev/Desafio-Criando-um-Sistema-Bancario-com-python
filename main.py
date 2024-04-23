@@ -73,7 +73,6 @@ def extratos(saldo, /, *, extrato):
     pause()
 
 def novo_usuario(usuario):
-  clear()
   print('----------------------------------------------')
   print('|               Novo Usuario                 |')
   print('----------------------------------------------')
@@ -96,7 +95,6 @@ def verificar_usuario(cpf, usuarios):
   return verificador_usuario[0] if verificador_usuario else None
 
 def nova_conta(agencia, numero_conta, usuario):
-  clear()
   print('----------------------------------------------')
   print('|               Nova Conta                   |')
   print('----------------------------------------------')
@@ -109,52 +107,55 @@ def nova_conta(agencia, numero_conta, usuario):
   print('----------------------------------------------')
   print(' Usuario não encotrado !')
 
+def main():
+  saldo = 0
+  limite = 500
+  extrato = ""
+  numero_de_saques = 0
+  usuarios = []
+  contas = []
+  LIMITE_DE_SAQUES = 3
+  AGENCIA = '0001'
 
-saldo = 0
-limite = 500
-extrato = ""
-numero_de_saques = 0
-usuarios = []
-contas = []
-LIMITE_DE_SAQUES = 3
-AGENCIA = '0001'
+  while True:
 
-while True:
+    opcao = input(menu(saldo, LIMITE_DE_SAQUES, numero_de_saques, limite))
 
-  opcao = int(input(menu(saldo, LIMITE_DE_SAQUES, numero_de_saques, limite)))
+    if opcao == '1':  ### Operação de Depósito
+      valor_de_deposito = float(input('Informe o valor do depósito: '))
 
-  if opcao == 1:  ### Operação de Depósito
-    valor_de_deposito = float(input('Informe o valor do depósito: '))
+      saldo, extrato = depositar(saldo, valor_de_deposito, extrato)
 
-    saldo, extrato = depositar(saldo, valor_de_deposito, extrato)
+    elif opcao == '2':  ## opeção de Saque
 
-  elif opcao == 2:  ## opeção de Saque
+      valor_de_saque = float(input('\nInforme o valor do saque: '))
 
-    valor_de_saque = float(input('\nInforme o valor do saque: '))
+      saldo, extrato, limite, numero_de_saques = sacar( saldo=saldo, valor=valor_de_saque, extrato=extrato, limite=limite, numero_saques=numero_de_saques, limite_saque=LIMITE_DE_SAQUES)
+      
+    elif opcao == '3':
+      clear()
+      extratos(saldo, extrato=extrato)
 
-    saldo, extrato, limite, numero_de_saques = sacar( saldo=saldo, valor=valor_de_saque, extrato=extrato, limite=limite, numero_saques=numero_de_saques, limite_saque=LIMITE_DE_SAQUES)
+    elif opcao == '4':
+      clear()
+      numero_conta = len(contas) + 1
+      conta = nova_conta(AGENCIA, numero_conta, usuarios )
+      pause()
+
+    elif opcao == '5':
+      clear()
+      novo_usuario(usuarios)
+      pause()
+    elif opcao == '6':
+      print('Saindo ...')
+      break
+
+    else:
+      print('Opção inválida')
+      print('\nAperte ENTER para continuar...')
+      input()
     
-  elif opcao == 3:
     clear()
-    extratos(saldo, extrato=extrato)
-
-  elif opcao == 4:
-    numero_conta = len(contas) + 1
-    conta = nova_conta(AGENCIA, numero_conta, usuarios )
-    pause()
-
-  elif opcao == 5:
-    novo_usuario(usuarios)
-    pause()
-  elif opcao == 6:
-    print('Saindo ...')
-    break
-
-  else:
-    print('Opção inválida')
-    print('\nAperte ENTER para continuar...')
-    input()
   
-  clear()
-  
-  
+if __name__ == '__main__':
+  main()  
