@@ -85,7 +85,7 @@ def novo_usuario(usuario):
 
   nome = input('| Nome Completo: ')
   data_nascimento = input('| Data de Nascimento (dd-mm-aaaa): ')
-  endereco = input('| Endereço (Logradouro, Nº - Bairro, Cidade/Sigla): ')
+  endereco = input('| Endereço (Logradouro, Nº - Bairro - Cidade/Sigla): ')
 
   usuario.append({'cpf':cpf, 'nome': nome, 'data_nascimento':data_nascimento, 'endereco': endereco})
   print('---------------------------------------------')
