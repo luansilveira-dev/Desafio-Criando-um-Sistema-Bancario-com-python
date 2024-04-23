@@ -17,8 +17,9 @@ def menu(saldo, limite_saque, numero_saques, limite):
   | [2] - Saque.           |  
   | [3] - Extrato.         | 
   | [4] - Nova Conta       | 
-  | [5] - Novo usuário     | saques: {limite_saque}/{numero_saques}
-  | [6] - Sair.            | limite: R$ {limite:.2f}
+  | [5] - Novo usuário.    | 
+  | [6] - Lista de contas. | saques: {limite_saque}/{numero_saques}
+  | [7] - Sair.            | limite: R$ {limite:.2f}
   |------------------------|---------------------
        
   \nPara esclher uma opção, digite o número correspondente: '''
@@ -84,7 +85,7 @@ def novo_usuario(usuario):
 
   nome = input('| Nome Completo: ')
   data_nascimento = input('| Data de Nascimento (dd-mm-aaaa): ')
-  endereco = input('| Endereço (Logradouro, Nº - Bairro, Sidade/Sigla): ')
+  endereco = input('| Endereço (Logradouro, Nº - Bairro, Cidade/Sigla): ')
 
   usuario.append({'cpf':cpf, 'nome': nome, 'data_nascimento':data_nascimento, 'endereco': endereco})
   print('---------------------------------------------')
@@ -106,6 +107,16 @@ def nova_conta(agencia, numero_conta, usuario):
     return {'agencia': agencia, 'numero_conta': numero_conta, 'usuario': usuario}
   print('----------------------------------------------')
   print(' Usuario não encotrado !')
+
+def lista_contas(contas):
+  for conta in contas:
+    linha = f'''
+    Agência: {conta['agencia']}
+    C/C: {conta['numero_conta']}
+    Titular: {conta['usuario']['nome']}
+    '''
+    print('-' * 100)
+    print((linha))
 
 def main():
   saldo = 0
@@ -140,13 +151,20 @@ def main():
       clear()
       numero_conta = len(contas) + 1
       conta = nova_conta(AGENCIA, numero_conta, usuarios )
+      if conta: 
+        contas.append(conta)
       pause()
 
     elif opcao == '5':
       clear()
       novo_usuario(usuarios)
       pause()
+
     elif opcao == '6':
+      clear()
+      lista_contas(contas)
+      pause()
+    elif opcao == '7':
       print('Saindo ...')
       break
 
