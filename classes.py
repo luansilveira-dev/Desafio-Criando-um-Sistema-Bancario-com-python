@@ -1,33 +1,8 @@
-# Desafio - Otimizando o Sistema Bancário com Python v3.0.0
+import textwrap
+from abc import ABC, abstractclassmethod, abstractproperty
+from datetime import datetime
 
-## Objetivo do desafio
-Neste desafio iremos atualizar a implementação do sistema bancário, para armazenar os dados de clientes e contas bancárias em objetos ao invés de dicionários. O código deve seguir o modelo de classes UML.
 
-
-## Funcionalidades do Sistema
-
-### Menu do Sistema
-O sistema apresenta um menu e status interativo com as seguintes opções:
-```
-  |------------------------|
-  |    MENU DO SISTEMA     |
-  |------------------------|
-  | [1] - Depósito.        | 
-  | [2] - Saque.           |
-  | [3] - Extrato.         |
-  | [4] - Nova Conta       |
-  | [5] - Novo usuário.    |
-  | [6] - Lista de contas. | 
-  | [7] - Sair.            | 
-  |------------------------|
-
-Para esclher uma opção, digite o número correspondente:-  
-```
-
-Para escolher uma opção, o usuário deve digitar o número correspondente à operação desejada.
-
-### Classe Cliente
-```
 class Cliente:
     def __init__(self, endereco):
         self.endereco = endereco
@@ -38,20 +13,16 @@ class Cliente:
 
     def adicionar_conta(self, conta):
         self.contas.append(conta)
-```
 
-## Classe PessoaFisica
-```
+
 class PessoaFisica(Cliente):
     def __init__(self, nome, data_nascimento, cpf, endereco):
         super().__init__(endereco)
         self.nome = nome
         self.data_nascimento = data_nascimento
         self.cpf = cpf
-```
 
-## Classe Conta
-```
+
 class Conta:
     def __init__(self, numero, cliente):
         self._saldo = 0
@@ -112,11 +83,6 @@ class Conta:
         return True
 
 
-```
-
-## Classe ContaCorrente
-
-```
 class ContaCorrente(Conta):
     def __init__(self, numero, cliente, limite=500, limite_saques=3):
         super().__init__(numero, cliente)
@@ -149,10 +115,7 @@ class ContaCorrente(Conta):
             Titular:\t{self.cliente.nome}
         """
 
-```
-## Classe Historico
 
-```
 class Historico:
     def __init__(self):
         self._transacoes = []
@@ -169,11 +132,8 @@ class Historico:
                 "data": datetime.now().strftime("%d-%m-%Y %H:%M:%s"),
             }
         )
-```
 
-## Classe Transacao
 
-```
 class Transacao(ABC):
     @property
     @abstractproperty
@@ -183,10 +143,8 @@ class Transacao(ABC):
     @abstractclassmethod
     def registrar(self, conta):
         pass
-```
-## Classe Saque
 
-```
+
 class Saque(Transacao):
     def __init__(self, valor):
         self._valor = valor
@@ -200,10 +158,8 @@ class Saque(Transacao):
 
         if sucesso_transacao:
             conta.historico.adicionar_transacao(self)
-```
 
-## Classe Deposito
-```
+
 class Deposito(Transacao):
     def __init__(self, valor):
         self._valor = valor
@@ -217,4 +173,3 @@ class Deposito(Transacao):
 
         if sucesso_transacao:
             conta.historico.adicionar_transacao(self)
-```
