@@ -22,7 +22,7 @@ def menu():
     | [7] - Sair.            | 
     |------------------------|
 
-    Para esclher uma opção, digite o número correspondente:"""
+    Para esclher uma opção, digite o número correspondente: """
     return input(textwrap.dedent(menu))
 
 def verificar_cliente(cpf, clientes):
@@ -44,7 +44,7 @@ def depositar(clientes):
         print('Cliente não encontrado !!')
         return
     
-    valor = float(input('Informe o valor do depósito'))
+    valor = float(input('Informe o valor do depósito: '))
     transacao = Deposito(valor)
 
     conta = recuperar_conta_cliente(cliente)
@@ -75,7 +75,7 @@ def exibir_extrato(clientes):
     cliente = verificar_cliente(cpf, clientes)
 
     if not cliente:
-        print("\n@@@ Cliente não encontrado! @@@")
+        print("\nCliente não encontrado! ")
         return
 
     conta = recuperar_conta_cliente(cliente)
@@ -112,9 +112,7 @@ def criar_clientes(clientes):
 
     clientes.append(cliente)
 
-    print("\n=== Cliente criado com sucesso! ===")
-
-    print('Conta criada com sucesso!!')
+    print("\n Cliente criado com sucesso! ")
 
 def criar_conta(numero_conta, clientes, contas):
     cpf = input("Informe o CPF do cliente: ")
