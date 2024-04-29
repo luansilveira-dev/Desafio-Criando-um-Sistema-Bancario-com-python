@@ -1,4 +1,4 @@
-# Desafio - Otimizando o Sistema Bancário com Python v3.0.0
+# Desafio - Modelando o Sistema Bancário em POO com Python v3.0.0
 
 ## Objetivo do desafio
 Neste desafio iremos atualizar a implementação do sistema bancário, para armazenar os dados de clientes e contas bancárias em objetos ao invés de dicionários. O código deve seguir o modelo de classes UML.
