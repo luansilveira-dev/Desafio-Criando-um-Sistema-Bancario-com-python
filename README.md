@@ -13,7 +13,7 @@ O sistema apresenta um menu e status interativo com as seguintes opções:
   |------------------------|--------------------|
   |    MENU DO SISTEMA     |      Status        |
   |------------------------|--------------------
-  | [1] - Depósito.        | Saldo: R$ 0.00
+  | [1] - Depósito.        |  Saldo: R$ 0.00
   | [2] - Saque.           |
   | [3] - Extrato.         |
   | [4] - Nova Conta       |
