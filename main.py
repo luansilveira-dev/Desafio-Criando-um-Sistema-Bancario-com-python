@@ -34,23 +34,23 @@ def recuperar_conta_cliente(cliente):
         print('Cliente não possui conta !!')
         return
     
-    cliente.contas[0]
+    return cliente.contas[0]
 
 def depositar(clientes):
-    cpf = input('Informe o CPF do cliente: ')
+    cpf = input("Informe o CPF do cliente: ")
     cliente = verificar_cliente(cpf, clientes)
 
     if not cliente:
-        print('Cliente não encontrado !!')
+        print("\nCliente não encontrado! ")
         return
-    
-    valor = float(input('Informe o valor do depósito: '))
+
+    valor = float(input("Informe o valor do depósito: "))
     transacao = Deposito(valor)
 
     conta = recuperar_conta_cliente(cliente)
     if not conta:
         return
-    
+
     cliente.realizar_transacao(conta, transacao)
 
 def sacar(clientes):
