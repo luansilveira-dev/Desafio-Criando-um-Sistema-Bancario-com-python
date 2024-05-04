@@ -1,0 +1,2 @@
+[04/05/2024 - 03:59:57 Função: 'criar_conta' executadas com argumentos (1, [<PessoaFisica: (Luan Batista Silveira 1000)>], [<ContaCorrente: ('0001', '1, 'Luan Batista Silveira ')>]) e {}.Retornou None
+]

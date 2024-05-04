@@ -1,7 +1,10 @@
 import textwrap
 from abc import ABC, abstractclassmethod, abstractproperty
 from datetime import datetime
+from pathlib import Path
+import os
 
+ROOT_PATH = Path(__file__).parent
 
 class ContaIterador:
     def __init__(self, contas):
@@ -48,6 +51,9 @@ class PessoaFisica(Cliente):
         self.nome = nome
         self.data_nascimento = data_nascimento
         self.cpf = cpf
+    
+    def __repr__(self) -> str:
+        return f'<{self.__class__.__name__}: ({self.nome} {self.cpf})>'
 
 
 class Conta:
@@ -134,6 +140,9 @@ class ContaCorrente(Conta):
             return super().sacar(valor)
 
         return False
+    
+    def __repr__(self):
+        return f"<{self.__class__.__name__}: ('{self.agencia}', '{self.numero}, '{self.cliente.nome}')>"
 
     def __str__(self):
         return f"""\
@@ -217,5 +226,8 @@ class Deposito(Transacao):
 
         if sucesso_transacao:
             conta.historico.adicionar_transacao(self)
+
+
+
 
 

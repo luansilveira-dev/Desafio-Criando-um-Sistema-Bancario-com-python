@@ -2,6 +2,8 @@ import textwrap
 from classes import *
 import os
 
+
+
 def clear():
   os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -11,7 +13,14 @@ def pause():
 def log_transacao(func):
     def envelope(*args, **kwargs):
         resultado = func(*args, **kwargs)
-        print(f'{datetime.now()}: {func.__name__.upper()}')
+        data_hora = datetime.utcnow().strftime("%d/%m/%Y - %H:%M:%S")
+
+        with open(ROOT_PATH / 'data-log' /'log.txt', 'a' , encoding='utf-8') as arquivo:
+             arquivo.write( 
+                f"[{data_hora} Função: '{func.__name__}' executadas com argumentos {args} e {kwargs}." 
+                f"Retornou {resultado}\n]"
+             )
+        print(f'{data_hora}: {func.__name__.upper()}')
 
         return resultado
 
@@ -152,41 +161,43 @@ def listar_contas(contas):
 
 
 def main():
+    
     clientes = []
     contas = []
 
 
     while True:
         opcao = menu()
-
-        if opcao == '1':
-            depositar(clientes)
-            pause()
-            clear()
-        elif opcao == '2':
-            sacar(clientes)
-            pause()
-            clear()
-        elif opcao == '3':
-            exibir_extrato(clientes)
-            pause()
-            clear()
-        elif opcao == '4':
-            numero_conta = len(contas) + 1
-            criar_conta(numero_conta, clientes, contas)
-            pause()
-            clear()
-        elif opcao == '5':
-            criar_clientes(clientes)
-            pause()
-            clear()
-        elif opcao == '6':
-            listar_contas(contas)
-            pause()
-            clear()
-        elif opcao == '7':
-            break
+        match opcao:
+            case '1':
+                depositar(clientes)
+                pause()
+                clear()
+            case '2':
+                sacar(clientes)
+                pause()
+                clear()
+            case '3':
+                exibir_extrato(clientes)
+                pause()
+                clear()
+            case '4':
+                numero_conta = len(contas) + 1
+                criar_conta(numero_conta, clientes, contas)
+                pause()
+                clear()
+            case '5':
+                criar_clientes(clientes)
+                pause()
+                clear()
+            case '6':
+                listar_contas(contas)
+                pause()
+                clear()
+            case '7':
+                break
+    
         
 
 
-main()
+main() 
