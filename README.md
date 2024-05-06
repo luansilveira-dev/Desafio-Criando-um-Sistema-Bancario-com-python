@@ -9,7 +9,7 @@ Decorador deve às seguintes para cada chamada para função.
 -	Nome da função 
 -	Argumentos das função
 -	O valor retornado pelas função 
-```
+```python
 def log_transacao(func):
     def envelope(*args, **kwargs):
         resultado = func(*args, **kwargs)

@@ -1,26 +1,32 @@
-import textwrap
-from classes import *
 import os
+import textwrap
+from datetime import datetime
+from pathlib import Path
 
+from classes import ContaCorrente, ContaIterador, Deposito, PessoaFisica, Saque
+
+ROOT_PATH = Path(__file__).parent
 
 
 def clear():
-  os.system('cls' if os.name == 'nt' else 'clear')
+    os.system("cls" if os.name == "nt" else "clear")
+
 
 def pause():
-  input('\nAperte ENTER para continuar...')
+    input("\nAperte ENTER para continuar...")
+
 
 def log_transacao(func):
     def envelope(*args, **kwargs):
         resultado = func(*args, **kwargs)
         data_hora = datetime.utcnow().strftime("%d/%m/%Y - %H:%M:%S")
 
-        with open(ROOT_PATH / 'data-log' /'log.txt', 'a' , encoding='utf-8') as arquivo:
-             arquivo.write( 
-                f"[{data_hora} Função: '{func.__name__}' executadas com argumentos {args} e {kwargs}." 
+        with open(ROOT_PATH / "data-log" / "log.txt", "a", encoding="utf-8") as arquivo:
+            arquivo.write(
+                f"[{data_hora} Função: '{func.__name__}' executadas com argumentos {args} e {kwargs}."
                 f"Retornou {resultado}\n]"
-             )
-        print(f'{data_hora}: {func.__name__.upper()}')
+            )
+        print(f"{data_hora}: {func.__name__.upper()}")
 
         return resultado
 
@@ -44,16 +50,19 @@ def menu():
     Para esclher uma opção, digite o número correspondente: """
     return input(textwrap.dedent(menu))
 
+
 def verificar_cliente(cpf, clientes):
     cliente_verificado = [cliente for cliente in clientes if cliente.cpf == cpf]
     return cliente_verificado[0] if cliente_verificado else None
 
+
 def recuperar_conta_cliente(cliente):
-    if not cliente.contas: 
-        print('Cliente não possui conta !!')
+    if not cliente.contas:
+        print("Cliente não possui conta !!")
         return
-    
+
     return cliente.contas[0]
+
 
 @log_transacao
 def depositar(clientes):
@@ -73,23 +82,25 @@ def depositar(clientes):
 
     cliente.realizar_transacao(conta, transacao)
 
+
 @log_transacao
 def sacar(clientes):
-    cpf = input('Informe o CPF do cliente: ')
+    cpf = input("Informe o CPF do cliente: ")
     cliente = verificar_cliente(cpf, clientes)
 
     if not cliente:
-        print('Cliente não encontrado !!')
+        print("Cliente não encontrado !!")
         return
-    
-    valor = float(input('Informe o valor do saque: '))
+
+    valor = float(input("Informe o valor do saque: "))
     transacao = Saque(valor)
 
     conta = recuperar_conta_cliente(cliente)
     if not conta:
-        return conta 
-    
+        return conta
+
     cliente.realizar_transacao(conta, transacao)
+
 
 @log_transacao
 def exibir_extrato(clientes):
@@ -115,28 +126,34 @@ def exibir_extrato(clientes):
 
     if not tem_transacao:
         extrato = "Não foram realizadas movimentações."
-    
+
     print(extrato)
     print(f"\nSaldo:\n\tR$ {conta.saldo:.2f}")
     print("==========================================")
 
+
 def criar_clientes(clientes):
-    cpf = input('Informe o CPF do cliente: ')
+    cpf = input("Informe o CPF do cliente: ")
     cliente = verificar_cliente(cpf, clientes)
 
     if cliente:
-        print('Cliente não encontrado !!')
+        print("Cliente não encontrado !!")
         return
-  
+
     nome = input("Informe o nome completo: ")
     data_nascimento = input("Informe a data de nascimento (dd-mm-aaaa): ")
-    endereco = input("Informe o endereço (logradouro, nro - bairro - cidade/sigla estado): ")
+    endereco = input(
+        "Informe o endereço (logradouro, nro - bairro - cidade/sigla estado): "
+    )
 
-    cliente = PessoaFisica(nome=nome, data_nascimento=data_nascimento, cpf=cpf, endereco=endereco)
+    cliente = PessoaFisica(
+        nome=nome, data_nascimento=data_nascimento, cpf=cpf, endereco=endereco
+    )
 
     clientes.append(cliente)
 
     print("\n Cliente criado com sucesso! ")
+
 
 @log_transacao
 def criar_conta(numero_conta, clientes, contas):
@@ -153,7 +170,7 @@ def criar_conta(numero_conta, clientes, contas):
 
     print("\nConta criada com sucesso!")
 
-  
+
 def listar_contas(contas):
     for conta in ContaIterador(contas):
         print("=" * 100)
@@ -161,43 +178,40 @@ def listar_contas(contas):
 
 
 def main():
-    
+
     clientes = []
     contas = []
-
 
     while True:
         opcao = menu()
         match opcao:
-            case '1':
+            case "1":
                 depositar(clientes)
                 pause()
                 clear()
-            case '2':
+            case "2":
                 sacar(clientes)
                 pause()
                 clear()
-            case '3':
+            case "3":
                 exibir_extrato(clientes)
                 pause()
                 clear()
-            case '4':
+            case "4":
                 numero_conta = len(contas) + 1
                 criar_conta(numero_conta, clientes, contas)
                 pause()
                 clear()
-            case '5':
+            case "5":
                 criar_clientes(clientes)
                 pause()
                 clear()
-            case '6':
+            case "6":
                 listar_contas(contas)
                 pause()
                 clear()
-            case '7':
+            case "7":
                 break
-    
-        
 
 
-main() 
+main()

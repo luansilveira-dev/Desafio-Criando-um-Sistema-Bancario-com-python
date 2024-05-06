@@ -1,15 +1,11 @@
-import textwrap
-from abc import ABC, abstractclassmethod, abstractproperty
 from datetime import datetime
-from pathlib import Path
-import os
+from abc import ABC, abstractclassmethod, abstractproperty
 
-ROOT_PATH = Path(__file__).parent
 
 class ContaIterador:
     def __init__(self, contas):
         self.contas = contas
-        self._index = 0 
+        self._index = 0
 
     def __iter__(self):
         return self
@@ -17,28 +13,29 @@ class ContaIterador:
     def __next__(self):
         try:
             conta = self.contas[self._index]
-            return f'''
+            return f"""
                     Agência:\t{conta.agencia}
                     Número:\t\t{conta.numero}
                     Titular:\t{conta.cliente.nome}
                     Saldo:\t\tR$ {conta.saldo:.2f}
-            '''
+            """
         except IndexError:
             raise StopIteration
-        
+
         finally:
             self._index += 1
-            
+
+
 class Cliente:
     def __init__(self, endereco):
         self.endereco = endereco
         self.contas = []
 
     def realizar_transacao(self, conta, transacao):
-        #if len(conta.historico.transacoes_do_dia()) >= 2:
-            #print('Você excedeu numero de transações permitido para hoje !!')
-            #return
-        
+        # if len(conta.historico.transacoes_do_dia()) >= 2:
+        # print('Você excedeu numero de transações permitido para hoje !!')
+        # return
+
         transacao.registrar(conta)
 
     def adicionar_conta(self, conta):
@@ -51,9 +48,9 @@ class PessoaFisica(Cliente):
         self.nome = nome
         self.data_nascimento = data_nascimento
         self.cpf = cpf
-    
+
     def __repr__(self) -> str:
-        return f'<{self.__class__.__name__}: ({self.nome} {self.cpf})>'
+        return f"<{self.__class__.__name__}: ({self.nome} {self.cpf})>"
 
 
 class Conta:
@@ -124,7 +121,11 @@ class ContaCorrente(Conta):
 
     def sacar(self, valor):
         numero_saques = len(
-            [transacao for transacao in self.historico.transacoes if transacao["tipo"] == Saque.__name__]
+            [
+                transacao
+                for transacao in self.historico.transacoes
+                if transacao["tipo"] == Saque.__name__
+            ]
         )
 
         excedeu_limite = valor > self._limite
@@ -140,7 +141,7 @@ class ContaCorrente(Conta):
             return super().sacar(valor)
 
         return False
-    
+
     def __repr__(self):
         return f"<{self.__class__.__name__}: ('{self.agencia}', '{self.numero}, '{self.cliente.nome}')>"
 
@@ -168,12 +169,15 @@ class Historico:
                 "data": datetime.utcnow().strftime("%d-%m-%Y %H:%M:%S"),
             }
         )
-    
+
     def gerar_ralatorio(self, tipo_transacao=None):
         for transacao in self._transacoes:
-            if tipo_transacao == None or transacao['tipo'].lower() == tipo_transacao.lower():
+            if (
+                tipo_transacao == None
+                or transacao["tipo"].lower() == tipo_transacao.lower()
+            ):
                 yield transacao
-        '''data_atual = datetime.utcnow().date()
+        """data_atual = datetime.utcnow().date()
         transacoes = []
 
         for transacao in self._transacoes:
@@ -182,10 +186,11 @@ class Historico:
             if data_atual == data_transacao:
                 transacoes.append(transacao)
 
-        return transacoes'''
-    
-    #def transacoes_do_dia(self):
-        #return self.gerar_ralatorio()
+        return transacoes"""
+
+    # def transacoes_do_dia(self):
+    # return self.gerar_ralatorio()
+
 
 class Transacao(ABC):
     @property
@@ -226,8 +231,3 @@ class Deposito(Transacao):
 
         if sucesso_transacao:
             conta.historico.adicionar_transacao(self)
-
-
-
-
-
